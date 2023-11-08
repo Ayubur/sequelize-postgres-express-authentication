@@ -1,3 +1,5 @@
+const { dbConnection, sequelize } = require("./connection");
 module.exports = {
-  databaseConnection: require("./connection")
+  databaseConnection: dbConnection,
+  sequelize: sequelize
 }
