@@ -17,4 +17,17 @@ module.exports = (app) => {
       FormateResponseData({ type: ERROR, res, error })
     }
   })
+
+  app.post("/login", async (req, res, next) => {
+    const { email, password } = req.body;
+    try {
+      const data = await userSerice.SignIn({ email, password });
+      FormateResponseData({ type: RESULT, res, result: data })
+    } catch (error) {
+      if (error.statusCode) {
+        res.status(error.statusCode);
+      }
+      FormateResponseData({ type: ERROR, res, error })
+    }
+  })
 }

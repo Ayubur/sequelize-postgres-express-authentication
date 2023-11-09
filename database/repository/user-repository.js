@@ -11,6 +11,11 @@ class UserRepository {
     })
     return userResult;
   }
+
+  async FindUser({ email }) {
+    const existingUser = await UserModel.findOne({ where: { email } });
+    return existingUser;
+  }
 }
 
 module.exports = UserRepository;
