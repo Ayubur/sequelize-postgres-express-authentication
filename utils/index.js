@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const {
   APP_SECRET
 } = require("../config");
+const { ERROR, RESULT } = require("./constants/enums/ResponseType");
+
 
 //Utility functions
 module.exports.GenerateSalt = async () => {
@@ -34,7 +36,6 @@ module.exports.GenerateSignature = async (payload) => {
 module.exports.ValidateSignature = async (req) => {
   try {
     const signature = req.get("Authorization");
-    console.log(signature);
     const payload = await jwt.verify(signature.split(" ")[1], APP_SECRET);
     req.user = payload;
     return true;
@@ -44,10 +45,25 @@ module.exports.ValidateSignature = async (req) => {
   }
 };
 
-module.exports.FormateData = (data) => {
-  if (data) {
-    return { data };
-  } else {
-    throw new Error("Data Not found!");
+module.exports.FormateResponseData = ({ type, res, result, error }) => {
+  switch (type) {
+    case RESULT:
+      res.status(res.statusCode ?? 200).json({
+        type: RESULT,
+        message: res.message || "OK",
+        result: result,
+        error: null,
+        code: res.statusCode ?? 200,
+      });
+      break;
+    case ERROR:
+      res.status(res.statusCode ?? 500).json({
+        type: ERROR,
+        message: error.message,
+        result: error.result ?? null,
+        error: process.env.ENV_TYPE === "production" ? null : error.stack,
+        code: res.statusCode ?? 500,
+      });
+      break;
   }
 };

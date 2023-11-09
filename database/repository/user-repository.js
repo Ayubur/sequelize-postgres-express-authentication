@@ -3,7 +3,7 @@ const UserModel = require("../models/User");
 class UserRepository {
   constructor() { }
 
-  async CreateUser({ name, email, password, salt }) {
+  async CreateUser({ name, email, password }) {
     const userResult = await UserModel.create({
       name,
       email,
