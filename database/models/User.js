@@ -17,7 +17,7 @@ const UserModel = sequelize.define("User", {
   }
 });
 
-UserModel.sync().then(() => {
+UserModel.sync({ force: false, alter: true }).then(() => {
   console.log("User Model synced");
 });
 
