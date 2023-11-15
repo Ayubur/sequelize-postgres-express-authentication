@@ -1,4 +1,4 @@
-const UserRepository = require("../database/repository/user-repository");
+const UserRepository = require("../repository/user-repository");
 const { FormateData, GeneratePassword, GenerateSalt, GenerateSignature, ValidatePassword } = require("../utils");
 const HttpError = require("../utils/helpers/HttpError");
 
